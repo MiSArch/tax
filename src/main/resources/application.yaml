@@ -1,0 +1,12 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  r2dbc:
+    url: r2dbc:postgresql://tax-db:5432/tax
+  flyway:
+    url: jdbc:postgresql://tax-db:5432/tax
+    locations: classpath:db/migration
+graphql:
+  packages: org.misarch.tax
+  federation:
+    enabled: true
