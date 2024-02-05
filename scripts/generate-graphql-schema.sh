@@ -14,6 +14,6 @@ do
     echo "Waiting for server"
     sleep 2
 done
-curl -s -o ./schemas/user.graphql $schema_endpoint
+curl -s -o ./schemas/tax.graphql $schema_endpoint
 echo "Stopping graphql server"
 kill $gradlew_pid
