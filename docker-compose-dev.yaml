@@ -1,0 +1,27 @@
+services:
+  tax-db:
+    extends:
+      file: docker-compose-base.yaml
+      service: tax-db
+    ports:
+      - 5432:5432
+  tax:
+    extends:
+      file: docker-compose-base.yaml
+      service: tax
+    ports:
+      - 8080:8080
+  tax-dapr:
+    extends:
+      file: docker-compose-base.yaml
+      service: tax-dapr
+    volumes:
+      - "./.dapr/dapr-config-minimal.yaml:/config.yaml"
+      - "./.dapr/components:/components"
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+volumes:
+  tax-db-data:
