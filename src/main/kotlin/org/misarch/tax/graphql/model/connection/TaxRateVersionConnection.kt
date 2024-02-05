@@ -24,7 +24,7 @@ import org.misarch.tax.persistence.repository.TaxRateVersionRepository
  * @param repository The repository to fetch the items from
  * @param applyJoin A function to apply a join to the query
  */
-@GraphQLDescription("A connection to a list of `User` values.")
+@GraphQLDescription("A connection to a list of `TaxRateVersion` values.")
 @ShareableDirective
 class TaxRateVersionConnection(
     first: Int?,

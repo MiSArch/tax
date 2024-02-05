@@ -22,7 +22,7 @@ class TaxRateVersion(
     private val taxRateId: UUID
 ) : Node(id) {
 
-    @GraphQLDescription("The associated TaxRate.")
+    @GraphQLDescription("The current version.")
     fun currentVersion(
         dfe: DataFetchingEnvironment
     ): CompletableFuture<TaxRate> {
