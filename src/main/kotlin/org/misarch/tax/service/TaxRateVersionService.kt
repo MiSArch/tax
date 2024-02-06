@@ -40,6 +40,9 @@ class TaxRateVersionService(
             throw IllegalArgumentException("TaxRate with id ${input.taxRateId} does not exist.")
         }
         val taxRateVersion = createTaxRateVersionInternal(input, input.taxRateId)
+        val taxRate = taxRateRepository.findById(input.taxRateId).awaitSingle()
+        taxRate.currentVersionId = taxRateVersion.id
+        taxRateRepository.save(taxRate).awaitSingle()
         eventPublisher.publishEvent(TaxEvents.TAX_RATE_VERSION_CREATED, taxRateVersion.toEventDTO())
         return taxRateVersion
     }
