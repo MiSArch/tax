@@ -33,6 +33,7 @@ class Query(
         id: UUID,
         dfe: DataFetchingEnvironment
     ): CompletableFuture<TaxRate> {
+        dfe.authorizedUser.checkIsEmployee()
         return dfe.getDataLoader<UUID, TaxRate>(TaxRateDataLoader::class.simpleName!!).load(id)
     }
 
@@ -42,6 +43,7 @@ class Query(
         id: UUID,
         dfe: DataFetchingEnvironment
     ): CompletableFuture<TaxRateVersion> {
+        dfe.authorizedUser.checkIsEmployee()
         return dfe.getDataLoader<UUID, TaxRateVersion>(TaxRateVersionDataLoader::class.simpleName!!).load(id)
     }
 
@@ -52,9 +54,11 @@ class Query(
         @GraphQLDescription("Number of items to skip")
         skip: Int? = null,
         @GraphQLDescription("Ordering")
-        orderBy: TaxRateOrder? = null
+        orderBy: TaxRateOrder? = null,
+        dfe: DataFetchingEnvironment
     ): TaxRateConnection {
-        return TaxRateConnection(first, skip, null, orderBy, taxRateRepository)
+        dfe.authorizedUser.checkIsEmployee()
+        return TaxRateConnection(first, skip, null, orderBy, taxRateRepository, dfe.authorizedUserOrNull)
     }
 
 }
