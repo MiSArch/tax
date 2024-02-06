@@ -22,8 +22,8 @@ class TaxRateVersion(
     private val taxRateId: UUID
 ) : Node(id) {
 
-    @GraphQLDescription("The current version.")
-    fun currentVersion(
+    @GraphQLDescription("The associated TaxRate.")
+    fun taxRate(
         dfe: DataFetchingEnvironment
     ): CompletableFuture<TaxRate> {
         return dfe.getDataLoader<UUID, TaxRate>(TaxRateDataLoader::class.simpleName!!)
