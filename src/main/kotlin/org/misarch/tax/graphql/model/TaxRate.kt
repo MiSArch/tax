@@ -5,6 +5,8 @@ import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.generator.federation.directives.FieldSet
 import com.expediagroup.graphql.generator.federation.directives.KeyDirective
 import graphql.schema.DataFetchingEnvironment
+import org.misarch.tax.graphql.authorizedUser
+import org.misarch.tax.graphql.authorizedUserOrNull
 import org.misarch.tax.graphql.dataloader.TaxRateVersionDataLoader
 import org.misarch.tax.graphql.model.connection.TaxRateVersionConnection
 import org.misarch.tax.graphql.model.connection.TaxRateVersionOrder
@@ -43,14 +45,17 @@ class TaxRate(
         orderBy: TaxRateVersionOrder? = null,
         @GraphQLIgnore
         @Autowired
-        taxRateVersionRepository: TaxRateVersionRepository
+        taxRateVersionRepository: TaxRateVersionRepository,
+        dfe: DataFetchingEnvironment
     ): TaxRateVersionConnection {
+        dfe.authorizedUser.checkIsEmployee()
         return TaxRateVersionConnection(
             first,
             skip,
             TaxRateVersionEntity.ENTITY.taxRateId.eq(id),
             orderBy,
-            taxRateVersionRepository
+            taxRateVersionRepository,
+            dfe.authorizedUserOrNull
         )
     }
 

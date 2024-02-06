@@ -3,9 +3,10 @@ package org.misarch.tax.graphql.model.connection
 import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.federation.directives.ShareableDirective
 import com.querydsl.core.types.Expression
-import com.querydsl.core.types.Predicate
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.ComparableExpression
 import com.querydsl.sql.SQLQuery
+import org.misarch.tax.graphql.AuthorizedUser
 import org.misarch.tax.graphql.model.TaxRateVersion
 import org.misarch.tax.graphql.model.connection.base.BaseConnection
 import org.misarch.tax.graphql.model.connection.base.BaseOrder
@@ -22,6 +23,7 @@ import org.misarch.tax.persistence.repository.TaxRateVersionRepository
  * @param predicate The predicate to filter the items by
  * @param order The order to sort the items by
  * @param repository The repository to fetch the items from
+ * @param authorizedUser The authorized user
  * @param applyJoin A function to apply a join to the query
  */
 @GraphQLDescription("A connection to a list of `TaxRateVersion` values.")
@@ -29,17 +31,20 @@ import org.misarch.tax.persistence.repository.TaxRateVersionRepository
 class TaxRateVersionConnection(
     first: Int?,
     skip: Int?,
-    predicate: Predicate?,
+    predicate: BooleanExpression?,
     order: TaxRateVersionOrder?,
     repository: TaxRateVersionRepository,
+    authorizedUser: AuthorizedUser?,
     applyJoin: (query: SQLQuery<*>) -> SQLQuery<*> = { it }
 ) : BaseConnection<TaxRateVersion, TaxRateVersionEntity>(
     first,
     skip,
+    null,
     predicate,
     (order ?: TaxRateVersionOrder.DEFAULT).toOrderSpecifier(TaxRateVersionOrderField.ID),
     repository,
     TaxRateVersionEntity.ENTITY,
+    authorizedUser,
     applyJoin
 ) {
 
