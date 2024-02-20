@@ -14,11 +14,11 @@ class EventPublisher(private val client: DaprClient) {
      * Publishes an event via the Dapr client.
      * Uses the pubsub component.
      *
-     * @param topic the topic to publish to, automatically prefixed with "tax/"
+     * @param topic the topic to publish to
      * @param message the message to publish
      */
     suspend fun publishEvent(topic: String, message: Any) {
-        client.publishEvent(org.misarch.tax.event.TaxEvents.PUBSUB_NAME, "tax/$topic", message).awaitSingleOrNull()
+        client.publishEvent(org.misarch.tax.event.TaxEvents.PUBSUB_NAME, topic, message).awaitSingleOrNull()
     }
 
 }
